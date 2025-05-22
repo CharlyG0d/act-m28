@@ -102,6 +102,18 @@ const cartReducer = (state = [], action) => {
          }
             
         case REMOVE_FROM_CART:
+            const existing = state.find(item => item.id === action.payload);
+            if (!existing) return state;
+
+            if (existing.quantity > 1) {
+                return state.map(item =>
+                    item.id === action.payload
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                );
+            }
+
+            // Si la cantidad es 1, se elimina el producto
             return state.filter(item => item.id !== action.payload);
 
         default:
