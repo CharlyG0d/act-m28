@@ -5,7 +5,7 @@ import { MainApp, TitleMain } from './styles';
 const Main = () => {
     return (
         <MainApp>
-            <TitleMain>Productos Disponibles</TitleMain>
+            <TitleMain>Productos mas vendidos</TitleMain>
             <ProductList />
         </MainApp>
     );

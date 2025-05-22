@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../Types/index';
 
 const initialProducts = [
     { id: 1, 
@@ -86,14 +87,28 @@ const productsReducer = (state = initialProducts, action) => {
 // Reducer del carrito
 const cartReducer = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_TO_CART':
-            return [...state, action.payload];
-        case 'REMOVE_FROM_CART':
+        case ADD_TO_CART:{
+
+            const exists = state.find(item => item.id === action.payload.id);
+            if(exists){
+              return state.map(item =>
+                item.id === action.payload.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+                );
+            } else {
+                return [...state, { ...action.payload, quantity: 1 }];
+            }
+         }
+            
+        case REMOVE_FROM_CART:
             return state.filter(item => item.id !== action.payload);
+
         default:
             return state;
     }
 };
+
 
 const rootReducer = combineReducers({
     products: productsReducer,
